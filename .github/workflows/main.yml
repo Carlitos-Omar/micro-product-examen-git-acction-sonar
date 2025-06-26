@@ -8,8 +8,8 @@ on:
 env:
   DOCKER_PROJECT_NAME: 'microproduct2025'
   APP_CONTAINER_NAME: 'product_app_2025'
-  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   SONAR_HOST_URL: 'http://localhost:9000'
+  SONAR_TOKEN: 'squ_4d43d0a4c06e2c4687cb9b2a2a9f423cb95451d0'
 
 jobs:
   analyze-and-deploy:
@@ -29,8 +29,6 @@ jobs:
         run: mvn -B clean package -DskipTests
 
       - name: SonarQube Analysis
-        env:
-          SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
         run: |
           mvn sonar:sonar \
             -Dsonar.projectKey=micro-product \
