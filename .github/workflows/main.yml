@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -39,13 +41,15 @@ jobs:
       - name: Deploy with Docker Compose
         run: |
           echo "🧹 Limpiando despliegue anterior..."
+          cd docker
           docker compose -p ${{ env.DOCKER_PROJECT_NAME }} down -v --remove-orphans || true
 
           echo "🏗️ Construyendo contenedores..."
           docker compose -p ${{ env.DOCKER_PROJECT_NAME }} up -d --build
-
+ 
           echo "🔍 Contenedores activos:"
           docker compose -p ${{ env.DOCKER_PROJECT_NAME }} ps
 
           echo "📄 Logs de la aplicación:"
           docker logs --tail 100 ${{ env.APP_CONTAINER_NAME }}
+
